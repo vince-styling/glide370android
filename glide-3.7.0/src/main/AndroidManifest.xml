@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.cm.gamingkeyboard">
+
+    <application>
+        <service
+            android:name=".SoftKeyboardService"
+            android:enabled="true"
+            android:permission="android.permission.BIND_INPUT_METHOD"
+            android:process=":worker"
+            android:label="超人键盘demo">
+            <intent-filter>
+                <action android:name="android.view.InputMethod"/>
+            </intent-filter>
+            <meta-data
+                android:name="android.view.im"
+                android:resource="@xml/gamingkeyboard_input_method"/>
+        </service>
+
+    </application>
+
+</manifest>

@@ -1,0 +1,44 @@
+<com.cm.gamingkeyboard.GamingkeyboardViewFullScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:background="#ffffff"
+        android:paddingLeft="@dimen/gkeyboard_common_padding"
+        android:gravity="center_vertical">
+
+        <EditText
+            android:id="@+id/txv_candidate_text"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textColor="#333333"
+            android:textSize="14sp"
+            android:paddingBottom="10dp"
+            tools:text="天王盖地虎，小鸡炖蘑菇"
+            android:minLines="1"/>
+
+        <Button
+            android:id="@+id/btn_commit_typed"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:background="@null"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textSize="14sp"
+            android:textColor="@color/gkeyboard_input_done_text_color"
+            android:minWidth="@null"
+            android:enabled="false"
+            android:text="@string/gkeyboard_commit_typed"/>
+
+    </LinearLayout>
+
+    <include
+        layout="@layout/keyboard_input"/>
+
+</com.cm.gamingkeyboard.GamingkeyboardViewFullScreen>

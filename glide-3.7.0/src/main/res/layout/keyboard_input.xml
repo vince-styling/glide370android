@@ -1,0 +1,88 @@
+<com.cm.gamingkeyboard.GamingkeyboardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/gkeyboard_btn_extra_padding"
+    android:paddingTop="@dimen/gkeyboard_btn_extra_padding"
+    android:paddingRight="@dimen/gkeyboard_edge_padding"
+    android:paddingBottom="@dimen/gkeyboard_edge_padding"
+    android:background="#f2f4f4f4"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/btn_most_freq"
+            style="@style/gkeyboard_lead_btn">
+
+            <ImageButton
+                android:src="@drawable/gkeyboard_most_freq"
+                style="@style/gkeyboard_lead_btn_imgbtn"/>
+
+            <TextView
+                style="@style/gkeyboard_lead_btn_txv"
+                android:text="@string/gkeyboard_most_freq"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_enemy_irony"
+            style="@style/gkeyboard_grid_btn"
+            android:tag="@integer/gkeyboard_enemy_irony"
+            android:text="@string/gkeyboard_enemy_irony"/>
+
+        <Button
+            android:id="@+id/btn_ally_complaining"
+            style="@style/gkeyboard_grid_btn"
+            android:tag="@integer/gkeyboard_ally_complaining"
+            android:text="@string/gkeyboard_ally_complaining"/>
+
+        <Button
+            android:id="@+id/btn_offer_your_kneels"
+            style="@style/gkeyboard_grid_btn"
+            android:tag="@integer/gkeyboard_offer_your_kneels"
+            android:text="@string/gkeyboard_offer_your_kneels"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/btn_switch_input_method"
+            style="@style/gkeyboard_lead_btn">
+
+            <ImageButton
+                android:src="@drawable/gkeyboard_switch_input_method"
+                style="@style/gkeyboard_lead_btn_imgbtn"/>
+
+            <TextView
+                style="@style/gkeyboard_lead_btn_txv"
+                android:text="@string/gkeyboard_switch_input_method"/>
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btn_fuck_the_idiot"
+            style="@style/gkeyboard_grid_btn"
+            android:tag="@integer/gkeyboard_fuck_the_idiot"
+            android:text="@string/gkeyboard_fuck_the_idiot"/>
+
+        <Button
+            android:id="@+id/btn_seduce_beauty"
+            style="@style/gkeyboard_grid_btn"
+            android:tag="@integer/gkeyboard_seduce_beauty"
+            android:text="@string/gkeyboard_seduce_beauty"/>
+
+        <Button
+            android:id="@+id/btn_raise_up_gamemaster"
+            style="@style/gkeyboard_grid_btn"
+            android:tag="@integer/gkeyboard_raise_up_gamemaster"
+            android:text="@string/gkeyboard_raise_up_gamemaster"/>
+
+    </LinearLayout>
+
+</com.cm.gamingkeyboard.GamingkeyboardView>

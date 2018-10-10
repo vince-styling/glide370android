@@ -1,0 +1,9 @@
+<resources>
+    <dimen name="gkeyboard_lead_btn_size">45dp</dimen>
+    <dimen name="gkeyboard_btn_font_size">12sp</dimen>
+
+    <!-- 注：做调整时要保证 8 = 6 + 2 哦 -->
+    <dimen name="gkeyboard_edge_padding">8dp</dimen>
+    <dimen name="gkeyboard_common_padding">6dp</dimen>
+    <dimen name="gkeyboard_btn_extra_padding">2dp</dimen>
+</resources>

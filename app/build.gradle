@@ -1,0 +1,16 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
+
+    defaultConfig {
+        applicationId "com.cmcm.glide370"
+        minSdkVersion 21
+        targetSdkVersion 23
+    }
+}
+
+dependencies {
+    compile project(':glide-3.7.0')
+}
