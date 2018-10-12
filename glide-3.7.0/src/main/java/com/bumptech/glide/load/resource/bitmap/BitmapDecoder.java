@@ -22,7 +22,7 @@ public interface BitmapDecoder<T> {
      * @param outHeight The target height for the returned bitmap (need not match exactly).
      * @param decodeFormat The desired configuration for the returned bitmap.
      */
-    Bitmap decode(T resource, BitmapPool bitmapPool, int outWidth, int outHeight, DecodeFormat decodeFormat)
+    Bitmap decode(T resource, BitmapPool bitmapPool, int outWidth, int outHeight, DecodeFormat decodeFormat, boolean decodeByOriginalIns)
             throws Exception;
 
     /**

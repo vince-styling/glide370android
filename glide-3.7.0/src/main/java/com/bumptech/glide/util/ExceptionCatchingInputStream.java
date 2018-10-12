@@ -118,6 +118,10 @@ public class ExceptionCatchingInputStream extends InputStream {
         return result;
     }
 
+    public InputStream getWrapped() {
+        return wrapped;
+    }
+
     public IOException getException() {
         return exception;
     }

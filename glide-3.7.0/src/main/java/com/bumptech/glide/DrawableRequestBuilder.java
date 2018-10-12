@@ -378,6 +378,13 @@ public class DrawableRequestBuilder<ModelType>
         return this;
     }
 
+    @Override
+    public DrawableRequestBuilder<ModelType> decodeByOriginalIns() {
+        super.decodeByOriginalIns();
+
+        return this;
+    }
+
     /**
      * {@inheritDoc}
      */

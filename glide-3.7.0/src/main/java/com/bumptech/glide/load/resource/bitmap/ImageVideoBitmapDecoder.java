@@ -31,12 +31,12 @@ public class ImageVideoBitmapDecoder implements ResourceDecoder<ImageVideoWrappe
     @SuppressWarnings("resource")
     // @see ResourceDecoder.decode
     @Override
-    public Resource<Bitmap> decode(ImageVideoWrapper source, int width, int height) throws IOException {
+    public Resource<Bitmap> decode(ImageVideoWrapper source, int width, int height, boolean decodeByOriginalIns) throws IOException {
         Resource<Bitmap> result = null;
         InputStream is = source.getStream();
         if (is != null) {
             try {
-                result = streamDecoder.decode(is, width, height);
+                result = streamDecoder.decode(is, width, height, decodeByOriginalIns);
             } catch (IOException e) {
                 if (Log.isLoggable(TAG, Log.VERBOSE)) {
                     Log.v(TAG, "Failed to load image from stream, trying FileDescriptor", e);
@@ -47,7 +47,7 @@ public class ImageVideoBitmapDecoder implements ResourceDecoder<ImageVideoWrappe
         if (result == null) {
             ParcelFileDescriptor fileDescriptor = source.getFileDescriptor();
             if (fileDescriptor != null) {
-                result = fileDescriptorDecoder.decode(fileDescriptor, width, height);
+                result = fileDescriptorDecoder.decode(fileDescriptor, width, height, decodeByOriginalIns);
             }
         }
         return result;

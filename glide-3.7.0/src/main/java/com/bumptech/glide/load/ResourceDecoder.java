@@ -34,7 +34,7 @@ public interface ResourceDecoder<T, Z> {
      *               height.
      * @throws IOException
      */
-    Resource<Z> decode(T source, int width, int height) throws IOException;
+    Resource<Z> decode(T source, int width, int height, boolean decodeByOriginalIns) throws IOException;
 
     /**
      * Returns an ID identifying any transformation this decoder may apply to the given data that will be mixed in to

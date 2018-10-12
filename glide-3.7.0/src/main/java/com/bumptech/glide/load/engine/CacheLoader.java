@@ -17,7 +17,7 @@ class CacheLoader {
         this.diskCache = diskCache;
     }
 
-    public <Z> Resource<Z> load(Key key, ResourceDecoder<File, Z> decoder, int width, int height) {
+    public <Z> Resource<Z> load(Key key, ResourceDecoder<File, Z> decoder, int width, int height, boolean decodeByOriginalIns) {
         File fromCache = diskCache.get(key);
         if (fromCache == null) {
             return null;
@@ -25,7 +25,7 @@ class CacheLoader {
 
         Resource<Z> result = null;
         try {
-            result = decoder.decode(fromCache, width, height);
+            result = decoder.decode(fromCache, width, height, decodeByOriginalIns);
         } catch (IOException e) {
             if (Log.isLoggable(TAG, Log.DEBUG)) {
                 Log.d(TAG, "Exception decoding image from cache", e);

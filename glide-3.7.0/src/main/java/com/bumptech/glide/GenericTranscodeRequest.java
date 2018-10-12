@@ -85,6 +85,7 @@ public class GenericTranscodeRequest<ModelType, DataType, ResourceType>
     /**
      * {@inheritDoc}
      */
+    @Override
     public <Y extends Target<File>> Y downloadOnly(Y target) {
         return getDownloadOnlyRequest().into(target);
     }
@@ -92,6 +93,7 @@ public class GenericTranscodeRequest<ModelType, DataType, ResourceType>
     /**
      * {@inheritDoc}
      */
+    @Override
     public FutureTarget<File> downloadOnly(int width, int height) {
         return getDownloadOnlyRequest().into(width, height);
     }

@@ -413,4 +413,8 @@ public class RecyclableBufferedInputStream extends FilterInputStream {
             super(detailMessage);
         }
     }
+
+    public InputStream getIns() {
+        return in;
+    }
 }

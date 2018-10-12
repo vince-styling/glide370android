@@ -74,6 +74,7 @@ public class GenericRequestBuilder<ModelType, DataType, ResourceType, TranscodeT
     private int overrideHeight = -1;
     private int overrideWidth = -1;
     private DiskCacheStrategy diskCacheStrategy = DiskCacheStrategy.RESULT;
+    private boolean decodeByOriginalIns;
     private Transformation<ResourceType> transformation = UnitTransformation.get();
     private boolean isTransformationSet;
     private boolean isThumbnailBuilt;
@@ -269,6 +270,12 @@ public class GenericRequestBuilder<ModelType, DataType, ResourceType, TranscodeT
     public GenericRequestBuilder<ModelType, DataType, ResourceType, TranscodeType>  diskCacheStrategy(
             DiskCacheStrategy strategy) {
         this.diskCacheStrategy = strategy;
+
+        return this;
+    }
+
+    public GenericRequestBuilder<ModelType, DataType, ResourceType, TranscodeType> decodeByOriginalIns() {
+        this.decodeByOriginalIns = true;
 
         return this;
     }
@@ -858,6 +865,7 @@ public class GenericRequestBuilder<ModelType, DataType, ResourceType, TranscodeT
                 animationFactory,
                 overrideWidth,
                 overrideHeight,
-                diskCacheStrategy);
+                diskCacheStrategy,
+                decodeByOriginalIns);
     }
 }

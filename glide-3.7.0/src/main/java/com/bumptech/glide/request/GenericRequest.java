@@ -79,6 +79,7 @@ public final class GenericRequest<A, T, Z, R> implements Request, SizeReadyCallb
     private int overrideWidth;
     private int overrideHeight;
     private DiskCacheStrategy diskCacheStrategy;
+    private boolean decodeByOriginalIns;
 
     private Drawable placeholderDrawable;
     private Drawable errorDrawable;
@@ -112,7 +113,8 @@ public final class GenericRequest<A, T, Z, R> implements Request, SizeReadyCallb
             GlideAnimationFactory<R> animationFactory,
             int overrideWidth,
             int overrideHeight,
-            DiskCacheStrategy diskCacheStrategy) {
+            DiskCacheStrategy diskCacheStrategy,
+            boolean decodeByOriginalIns) {
         @SuppressWarnings("unchecked")
         GenericRequest<A, T, Z, R> request = (GenericRequest<A, T, Z, R>) REQUEST_POOL.poll();
         if (request == null) {
@@ -140,7 +142,8 @@ public final class GenericRequest<A, T, Z, R> implements Request, SizeReadyCallb
                 animationFactory,
                 overrideWidth,
                 overrideHeight,
-                diskCacheStrategy);
+                diskCacheStrategy,
+                decodeByOriginalIns);
         return request;
     }
 
@@ -189,7 +192,8 @@ public final class GenericRequest<A, T, Z, R> implements Request, SizeReadyCallb
             GlideAnimationFactory<R> animationFactory,
             int overrideWidth,
             int overrideHeight,
-            DiskCacheStrategy diskCacheStrategy) {
+            DiskCacheStrategy diskCacheStrategy,
+            boolean decodeByOriginalIns) {
         this.loadProvider = loadProvider;
         this.model = model;
         this.signature = signature;
@@ -213,6 +217,7 @@ public final class GenericRequest<A, T, Z, R> implements Request, SizeReadyCallb
         this.overrideWidth = overrideWidth;
         this.overrideHeight = overrideHeight;
         this.diskCacheStrategy = diskCacheStrategy;
+        this.decodeByOriginalIns = decodeByOriginalIns;
         status = Status.PENDING;
 
         // We allow null models by just setting an error drawable. Null models will always have empty providers, we
@@ -447,7 +452,7 @@ public final class GenericRequest<A, T, Z, R> implements Request, SizeReadyCallb
         }
         loadedFromMemoryCache = true;
         loadStatus = engine.load(signature, width, height, dataFetcher, loadProvider, transformation, transcoder,
-                priority, isMemoryCacheable, diskCacheStrategy, this);
+                priority, isMemoryCacheable, diskCacheStrategy, decodeByOriginalIns, this);
         loadedFromMemoryCache = resource != null;
         if (Log.isLoggable(TAG, Log.VERBOSE)) {
             logV("finished onSizeReady in " + LogTime.getElapsedMillis(startTime));

@@ -141,7 +141,7 @@ public class Engine implements EngineJobListener,
      */
     public <T, Z, R> LoadStatus load(Key signature, int width, int height, DataFetcher<T> fetcher,
             DataLoadProvider<T, Z> loadProvider, Transformation<Z> transformation, ResourceTranscoder<Z, R> transcoder,
-            Priority priority, boolean isMemoryCacheable, DiskCacheStrategy diskCacheStrategy, ResourceCallback cb) {
+            Priority priority, boolean isMemoryCacheable, DiskCacheStrategy diskCacheStrategy, boolean decodeByOriginalIns, ResourceCallback cb) {
         Util.assertMainThread();
         long startTime = LogTime.getLogTime();
 
@@ -179,7 +179,7 @@ public class Engine implements EngineJobListener,
 
         EngineJob engineJob = engineJobFactory.build(key, isMemoryCacheable);
         DecodeJob<T, Z, R> decodeJob = new DecodeJob<T, Z, R>(key, width, height, fetcher, loadProvider, transformation,
-                transcoder, diskCacheProvider, diskCacheStrategy, priority);
+                transcoder, diskCacheProvider, diskCacheStrategy, priority, decodeByOriginalIns);
         EngineRunnable runnable = new EngineRunnable(engineJob, decodeJob, priority);
         jobs.put(key, engineJob);
         engineJob.addCallback(cb);

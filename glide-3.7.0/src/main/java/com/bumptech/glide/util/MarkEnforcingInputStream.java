@@ -11,10 +11,12 @@ public class MarkEnforcingInputStream extends FilterInputStream {
     private static final int UNSET = Integer.MIN_VALUE;
     private static final int END_OF_STREAM = -1;
 
+    private InputStream ins;
     private int availableBytes = UNSET;
 
     public MarkEnforcingInputStream(InputStream in) {
         super(in);
+        ins = in;
     }
 
     @Override
@@ -83,5 +85,9 @@ public class MarkEnforcingInputStream extends FilterInputStream {
         if (availableBytes != UNSET && bytesRead != END_OF_STREAM) {
             availableBytes -= bytesRead;
         }
+    }
+
+    public InputStream getIns() {
+        return ins;
     }
 }

@@ -24,7 +24,7 @@ public class NullDecoder<T, Z> implements ResourceDecoder<T, Z> {
     }
 
     @Override
-    public Resource<Z> decode(T source, int width, int height) {
+    public Resource<Z> decode(T source, int width, int height, boolean decodeByOriginalIns) {
         return null;
     }
 

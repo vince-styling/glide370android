@@ -104,7 +104,7 @@ public abstract class Downsampler implements BitmapDecoder<InputStream> {
     @SuppressWarnings("resource")
     // see BitmapDecoder.decode
     @Override
-    public Bitmap decode(InputStream is, BitmapPool pool, int outWidth, int outHeight, DecodeFormat decodeFormat) {
+    public Bitmap decode(InputStream is, BitmapPool pool, int outWidth, int outHeight, DecodeFormat decodeFormat, boolean decodeByOriginalIns) {
         final ByteArrayPool byteArrayPool = ByteArrayPool.get();
         final byte[] bytesForOptions = byteArrayPool.getBytes();
         final byte[] bytesForStream = byteArrayPool.getBytes();
@@ -143,7 +143,7 @@ public abstract class Downsampler implements BitmapDecoder<InputStream> {
 
             options.inTempStorage = bytesForOptions;
 
-            final int[] inDimens = getDimensions(invalidatingStream, bufferedStream, options);
+            final int[] inDimens = getDimensions(invalidatingStream, bufferedStream, options, decodeByOriginalIns);
             final int inWidth = inDimens[0];
             final int inHeight = inDimens[1];
 
@@ -152,7 +152,7 @@ public abstract class Downsampler implements BitmapDecoder<InputStream> {
 
             final Bitmap downsampled =
                     downsampleWithSize(invalidatingStream, bufferedStream, options, pool, inWidth, inHeight, sampleSize,
-                            decodeFormat);
+                            decodeFormat, decodeByOriginalIns);
 
             // BitmapFactory swallows exceptions during decodes and in some cases when inBitmap is non null, may catch
             // and log a stack trace but still return a non null bitmap. To avoid displaying partially decoded bitmaps,
@@ -206,7 +206,7 @@ public abstract class Downsampler implements BitmapDecoder<InputStream> {
 
     private Bitmap downsampleWithSize(MarkEnforcingInputStream is, RecyclableBufferedInputStream  bufferedStream,
             BitmapFactory.Options options, BitmapPool pool, int inWidth, int inHeight, int sampleSize,
-            DecodeFormat decodeFormat) {
+            DecodeFormat decodeFormat, boolean decodeByOriginalIns) {
         // Prior to KitKat, the inBitmap size must exactly match the size of the bitmap we're decoding.
         Bitmap.Config config = getConfig(is, decodeFormat);
         options.inSampleSize = sampleSize;
@@ -217,7 +217,7 @@ public abstract class Downsampler implements BitmapDecoder<InputStream> {
             // BitmapFactory will clear out the Bitmap before writing to it, so getDirty is safe.
             setInBitmap(options, pool.getDirty(targetWidth, targetHeight, config));
         }
-        return decodeStream(is, bufferedStream, options);
+        return decodeStream(is, bufferedStream, options, decodeByOriginalIns);
     }
 
     private static boolean shouldUsePool(InputStream is) {
@@ -303,15 +303,15 @@ public abstract class Downsampler implements BitmapDecoder<InputStream> {
      * @return an array containing the dimensions of the image in the form {width, height}.
      */
     public int[] getDimensions(MarkEnforcingInputStream is, RecyclableBufferedInputStream bufferedStream,
-            BitmapFactory.Options options) {
+            BitmapFactory.Options options, boolean decodeByOriginalIns) {
         options.inJustDecodeBounds = true;
-        decodeStream(is, bufferedStream, options);
+        decodeStream(is, bufferedStream, options, decodeByOriginalIns);
         options.inJustDecodeBounds = false;
         return new int[] { options.outWidth, options.outHeight };
     }
 
     private static Bitmap decodeStream(MarkEnforcingInputStream is, RecyclableBufferedInputStream bufferedStream,
-            BitmapFactory.Options options) {
+            BitmapFactory.Options options, boolean decodeByOriginalIns) {
          if (options.inJustDecodeBounds) {
              // This is large, but jpeg headers are not size bounded so we need something large enough to minimize
              // the possibility of not being able to fit enough of the header in the buffer to get the image size so
@@ -326,7 +326,18 @@ public abstract class Downsampler implements BitmapDecoder<InputStream> {
              bufferedStream.fixMarkLimit();
          }
 
-        final Bitmap result = BitmapFactory.decodeStream(is, null, options);
+        InputStream ins = is;
+        if (decodeByOriginalIns) {
+            ins = is.getIns();
+            if (ins instanceof ExceptionCatchingInputStream) {
+                ins = ((ExceptionCatchingInputStream) ins).getWrapped();
+                if (ins instanceof RecyclableBufferedInputStream) {
+                    ins = ((RecyclableBufferedInputStream) ins).getIns();
+                }
+            }
+        }
+
+        final Bitmap result = BitmapFactory.decodeStream(ins, null, options);
 
         try {
             if (options.inJustDecodeBounds) {

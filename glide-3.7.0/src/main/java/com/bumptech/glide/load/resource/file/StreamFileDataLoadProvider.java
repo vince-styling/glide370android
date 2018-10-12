@@ -48,7 +48,7 @@ public class StreamFileDataLoadProvider implements DataLoadProvider<InputStream,
 
     private static class ErrorSourceDecoder implements ResourceDecoder<InputStream, File> {
         @Override
-        public Resource<File> decode(InputStream source, int width, int height) {
+        public Resource<File> decode(InputStream source, int width, int height, boolean decodeByOriginalIns) {
             throw new Error("You cannot decode a File from an InputStream by default,"
                     + " try either #diskCacheStratey(DiskCacheStrategy.SOURCE) to avoid this call or"
                     + " #decoder(ResourceDecoder) to replace this Decoder");

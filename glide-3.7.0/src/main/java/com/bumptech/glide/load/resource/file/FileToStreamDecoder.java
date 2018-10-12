@@ -31,12 +31,12 @@ public class FileToStreamDecoder<T> implements ResourceDecoder<File, T> {
     }
 
     @Override
-    public Resource<T> decode(File source, int width, int height) throws IOException {
+    public Resource<T> decode(File source, int width, int height, boolean decodeByOriginalIns) throws IOException {
         InputStream is = null;
         Resource<T> result = null;
         try {
             is = fileOpener.open(source);
-            result = streamDecoder.decode(is, width, height);
+            result = streamDecoder.decode(is, width, height, decodeByOriginalIns);
         } finally {
             if (is != null) {
                 try {

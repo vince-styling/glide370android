@@ -40,7 +40,7 @@ public class VideoBitmapDecoder implements BitmapDecoder<ParcelFileDescriptor> {
 
     @Override
     public Bitmap decode(ParcelFileDescriptor resource, BitmapPool bitmapPool, int outWidth, int outHeight,
-            DecodeFormat decodeFormat)
+            DecodeFormat decodeFormat, boolean decodeByOriginalIns)
             throws IOException {
         MediaMetadataRetriever mediaMetadataRetriever = factory.build();
         mediaMetadataRetriever.setDataSource(resource.getFileDescriptor());

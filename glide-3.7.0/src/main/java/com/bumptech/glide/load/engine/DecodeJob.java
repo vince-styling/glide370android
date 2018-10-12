@@ -40,6 +40,7 @@ class DecodeJob<A, T, Z> {
     private final ResourceTranscoder<T, Z> transcoder;
     private final DiskCacheProvider diskCacheProvider;
     private final DiskCacheStrategy diskCacheStrategy;
+    private final boolean decodeByOriginalIns;
     private final Priority priority;
     private final FileOpener fileOpener;
 
@@ -47,16 +48,16 @@ class DecodeJob<A, T, Z> {
 
     public DecodeJob(EngineKey resultKey, int width, int height, DataFetcher<A> fetcher,
             DataLoadProvider<A, T> loadProvider, Transformation<T> transformation, ResourceTranscoder<T, Z> transcoder,
-            DiskCacheProvider diskCacheProvider, DiskCacheStrategy diskCacheStrategy, Priority priority) {
+            DiskCacheProvider diskCacheProvider, DiskCacheStrategy diskCacheStrategy, Priority priority, boolean decodeByOriginalIns) {
         this(resultKey, width, height, fetcher, loadProvider, transformation, transcoder, diskCacheProvider,
-                diskCacheStrategy, priority, DEFAULT_FILE_OPENER);
+                diskCacheStrategy, priority, DEFAULT_FILE_OPENER, decodeByOriginalIns);
     }
 
     // Visible for testing.
     DecodeJob(EngineKey resultKey, int width, int height, DataFetcher<A> fetcher,
             DataLoadProvider<A, T> loadProvider, Transformation<T> transformation, ResourceTranscoder<T, Z> transcoder,
             DiskCacheProvider diskCacheProvider, DiskCacheStrategy diskCacheStrategy, Priority priority, FileOpener
-            fileOpener) {
+            fileOpener, boolean decodeByOriginalIns) {
         this.resultKey = resultKey;
         this.width = width;
         this.height = height;
@@ -68,6 +69,7 @@ class DecodeJob<A, T, Z> {
         this.diskCacheStrategy = diskCacheStrategy;
         this.priority = priority;
         this.fileOpener = fileOpener;
+        this.decodeByOriginalIns = decodeByOriginalIns;
     }
 
     /**
@@ -187,7 +189,7 @@ class DecodeJob<A, T, Z> {
             decoded = cacheAndDecodeSourceData(data);
         } else {
             long startTime = LogTime.getLogTime();
-            decoded = loadProvider.getSourceDecoder().decode(data, width, height);
+            decoded = loadProvider.getSourceDecoder().decode(data, width, height, decodeByOriginalIns);
             if (Log.isLoggable(TAG, Log.VERBOSE)) {
                 logWithTimeAndKey("Decoded from source", startTime);
             }
@@ -219,7 +221,7 @@ class DecodeJob<A, T, Z> {
 
         Resource<T> result = null;
         try {
-            result = loadProvider.getCacheDecoder().decode(cacheFile, width, height);
+            result = loadProvider.getCacheDecoder().decode(cacheFile, width, height, decodeByOriginalIns);
         } finally {
             if (result == null) {
                 diskCacheProvider.getDiskCache().delete(key);
